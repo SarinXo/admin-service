@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class AdminController {
 
     @GetMapping("/homepage")
-    public void getMainPage(){
-
+    public String getMainPage(){
+        return "main-page";
     }
 }
