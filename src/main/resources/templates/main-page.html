@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Выдвигающееся меню</title>
+    <title>SUPER PIG</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
           rel="stylesheet"
           integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
@@ -11,182 +11,21 @@
     <link href="/static/css/main-page.css">
 </head>
 
+<!--Общий заголовок-->
 <header>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container-fluid">
-            <!------------------------------>
-            <!--Ссылка на главную страницу-->
-            <!------------------------------>
-            <a class="navbar-brand" href="http://localhost/admin/homepage">
-                <img src="/static/pictures/MRSU_dark_bg_en_full_colorful.png" alt="" width="30" height="24" class="d-inline-block align-text-top">
-                SUPER PIG
-            </a>
-
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Изменить таблицу
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="#">Фермы</a></li>
-                            <li><a class="dropdown-item" href="#">Фермеры</a></li>
-                            <li><a class="dropdown-item" href="#">Откормочные дни</a></li>
-                            <li><a class="dropdown-item" href="#">Отзывы</a></li>
-                            <li><a class="dropdown-item" href="#">Сделки</a></li>
-                            <li><a class="dropdown-item" href="#">Предметы</a></li>
-                            <li><a class="dropdown-item" href="#">Свиньи</a></li>
-                            <li><a class="dropdown-item" href="#">Весовая статистика</a></li>
-                            <li><a class="dropdown-item" href="#">Зерно</a></li>
-                            <li><a class="dropdown-item" href="#">Заказы</a></li>
-                            <li><a class="dropdown-item" href="#">Пользователи</a></li>
-                        </ul>
-                    </li>
-
-                </ul>
-            </div>
-        </div>
-    </nav>
+    <div id="common-code-container"></div>
 </header>
 
 <body>
-
 <div class="container mt-5">
-    <h2>SAMPLE</h2>
-    <button type="button" class="btn btn-success mb-3" data-bs-toggle="modal" data-bs-target="#addModal">Добавить</button>
-    <table border="1" class="table table-striped table-responsive-md">
-        <thead>
-        <tr>
-            <th scope="col">#</th>
-            <th scope="col">Имя</th>
-            <th scope="col">Фамилия</th>
-            <th scope="col">Действия</th>
-        </tr>
-        </thead>
-        <tbody>
-        <!-- Замените следующие строки на ваши данные -->
-        <tr>
-            <th scope="row">1</th>
-            <td>Иван</td>
-            <td>Иванов</td>
-            <td>
-                <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editModal">Изменить</button>
-                <button type="button" class="btn btn-danger btn-sm" onclick="deleteRow(this)">Удалить</button>
-            </td>
-        </tr>
-        <!-- Дополнительные строки таблицы могут быть добавлены по аналогии -->
-        </tbody>
-    </table>
-
-    <div class="container my-2">
-        <h1>Employees List</h1>
-
-        <a th:href="@{/showNewEmployeeForm}" class="btn btn-primary btn-sm mb-3"> Add Employee </a>
-
-        <table border="1" class="table table-striped table-responsive-md">
-            <thead>
-            <tr>
-                <th>Employee First Name</th>
-                <th>Employee Last Name</th>
-                <th>Employee Email</th>
-                <th> Actions </th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="employee : ${listEmployees}">
-                <td th:text="${employee.firstName}"></td>
-                <td th:text="${employee.lastName}"></td>
-                <td th:text="${employee.email}"></td>
-                <td> <a th:href="@{/showFormForUpdate/{id}(id=${employee.id})}" class="btn btn-primary">Update</a>
-                    <a th:href="@{/deleteEmployee/{id}(id=${employee.id})}" class="btn btn-danger">Delete</a>
-                </td>
-            </tr>
-            </tbody>
-        </table>
-        <div th:if="${totalPages > 1}">
-            <div class="row col-sm-10">
-                <div class="col-sm-2">
-                    Total Rows: [[${totalItems}]]
-                </div>
-                <div class="col-sm-1">
-                    <span th:each="i: ${#numbers.sequence(1, totalPages)}">
-      <a th:if="${currentPage != i}" th:href="@{'/page/' + ${i}}">[[${i}]]</a>
-      <span th:unless="${currentPage != i}">[[${i}]]</span> &nbsp; &nbsp;
-                    </span>
-                </div>
-                <div class="col-sm-1">
-                    <a th:if="${currentPage < totalPages}" th:href="@{'/page/' + ${currentPage + 1}}">Next</a>
-                    <span th:unless="${currentPage < totalPages}">Next</span>
-                </div>
-
-                <div class="col-sm-1">
-                    <a th:if="${currentPage < totalPages}" th:href="@{'/page/' + ${totalPages}}">Last</a>
-                    <span th:unless="${currentPage < totalPages}">Last</span>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Модальное окно для редактирования -->
-    <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="editModalLabel">Редактировать данные</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <!-- Форма для редактирования данных -->
-                    <form>
-                        <div class="mb-3">
-                            <label for="editFirstName" class="form-label">Имя</label>
-                            <input type="text" class="form-control" id="editFirstName">
-                        </div>
-                        <div class="mb-3">
-                            <label for="editLastName" class="form-label">Фамилия</label>
-                            <input type="text" class="form-control" id="editLastName">
-                        </div>
-                        <button type="submit" class="btn btn-primary">Сохранить изменения</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Модальное окно для добавления -->
-<div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="addModalLabel">Добавить новые данные</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <!-- Форма для добавления новых данных -->
-                <form>
-                    <div class="mb-3">
-                        <label for="addFirstName" class="form-label">Имя</label>
-                        <input type="text" class="form-control" id="addFirstName">
-                    </div>
-                    <div class="mb-3">
-                        <label for="addLastName" class="form-label">Фамилия</label>
-                        <input type="text" class="form-control" id="addLastName">
-                    </div>
-                    <button type="submit" class="btn btn-success">Добавить</button>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
+    <h2>Выберите таблицу для редактирования</h2>
 </div>
 
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
         crossorigin="anonymous"></script>
-<script src="/static/js/main-page.js"></script>
+<script src="/static/js/header.js"></script>
 
 </body>
 </html>
