@@ -1,12 +1,15 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5444/app-db
+    url: jdbc:postgresql://localhost:5444/app-db?currentSchema=app
     username: admin
     password: admin
   jpa:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
+  web:
+    resources:
+      static-locations: classpath:/static/
 
 server:
   port: 8080

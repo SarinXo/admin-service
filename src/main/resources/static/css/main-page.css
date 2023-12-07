@@ -1,77 +1,15 @@
 body {
-    background-image: url('https://sun9-80.userapi.com/impg/d8NOCdACvGQDPNClp_XddGmyY6AcbQ8MqYo32Q/ngOxVXw88NY.jpg?size=1280x720&quality=96&sign=84c2141e9c44f20c87e793910dfb5449&c_uniq_tag=ASgPzsdD3OjP_YkUDtUEt-9qI1buohkx9u-5TzmGWxo&type=album');
     background-size: cover;
-    background-position: center;
     background-repeat: no-repeat;
+    background-image: url('https://edokhellas.com/wp-content/uploads/2021/01/275-scaled.jpg');
     margin: 0;
-    font-family: "Bradley Hand", serif;
     overflow-y: auto;
 }
 
-.menu-container {
-    display: flex;
-    color: orchid;
-}
-
-.side-menu {
-    width: 0;
-    height: 100vh;
-    background-color: #333333;
-    overflow-x: hidden;
-    transition: 0.5s;
-}
-
-.menu-button {
-    padding: 16px;
-    text-align: left;
-    font-size: 16px;
-
-    font-weight: bold;
-    background: #000000;
-
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-.menu-button:hover {
-    background-color: #7b29e5;
-}
-
-
-.navbar {
-    font-family: "Bradley Hand", serif;
-    color: #b633e7;
-}
-
-.navbar-brand {
-    display: block;
-    width: 100%;
-}
-
-.navbar-dark .navbar-toggler-icon {
-    border: 2px solid #9633e7;
-}
-
-.navbar-dark .navbar-toggler {
-    border: 2px solid #9633e7;
-}
-
-.navbar-nav .nav-link {
-    font-family: "Bradley Hand", serif;
-    color: #b633e7;
-}
-
-.dropdown-menu {
-    border: 2px solid #9633e7;
-}
-
-.dropdown-item {
-    font-family: "Bradley Hand", serif;
-    color: #b633e7;
-}
-
-.dropdown-item:hover {
-    background-color: #9633e7;
-    color: #fff;
+.rectangle {
+    background-color: white;
+    border-radius: 10px;
+    display: inline-block;
+    padding: 20px;
+    text-align: center;
 }

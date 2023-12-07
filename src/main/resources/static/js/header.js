@@ -6,7 +6,7 @@ document.getElementById('common-code-container').innerHTML
     '            <!------------------------------>\n' +
     '            <a class="navbar-brand" href="http://localhost/admin/homepage">\n' +
     '                <img src="/static/pictures/MRSU_dark_bg_en_full_colorful.png" alt="" width="30" height="24" class="d-inline-block align-text-top">\n' +
-    '                SUPER PIG\n' +
+    '                Панель администратора\n' +
     '            </a>\n' +
     '\n' +
     '            <div class="collapse navbar-collapse" id="navbarSupportedContent">\n' +

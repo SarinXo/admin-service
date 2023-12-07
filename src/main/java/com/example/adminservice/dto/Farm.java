@@ -20,7 +20,6 @@ import java.util.Objects;
 @ToString
 @RequiredArgsConstructor
 @AllArgsConstructor
-@NoArgsConstructor
 @Entity
 @Table(name = "farms")
 public class Farm {
@@ -31,7 +30,6 @@ public class Farm {
     private String description;
     private String address;
     private String license;
-
     private Double money;
 
     @Override

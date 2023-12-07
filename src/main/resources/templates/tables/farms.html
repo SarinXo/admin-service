@@ -1,13 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" xmlns:th="http://www.thymeleaf.org">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Выдвигающееся меню</title>
+    <link rel="stylesheet" type="text/css" href="/static/css/main-page.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
           rel="stylesheet"
           integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
           crossorigin="anonymous">
+
 </head>
 
 <!--Общий заголовок-->
@@ -16,9 +18,8 @@
 </header>
 
 <body>
-
 <div class="container mt-5">
-    <h2>SAMPLE</h2>
+    <h2>Таблица фермы</h2>
     <button type="button" class="btn btn-success mb-3" data-bs-toggle="modal" data-bs-target="#addModal">Добавить</button>
     <table border="1" class="table table-striped table-responsive-md">
         <thead>
@@ -34,69 +35,24 @@
 
         <tbody>
         <tr th:each="farm : ${listFarms}">
-            <td th:text="${farm.firstName}"></td>
-            <td th:text="${farm.lastName}"></td>
+            <td th:text="${farm.farmCode}"></td>
             <td th:text="${farm.email}"></td>
-            <td th:text="${farm.email}"></td>
-            <td th:text="${farm.email}"></td>
-            <td th:text="${farm.email}"></td>
+            <td th:text="${farm.description}"></td>
+            <td th:text="${farm.address}"></td>
+            <td th:text="${farm.license}"></td>
+            <td th:text="${farm.money}"></td>
             <td>
-                <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editModal">Изменить</button>
-                <button type="button" class="btn btn-danger btn-sm" onclick="deleteRow(this)">Удалить</button>
+                <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editModal"
+                        th:data-farm-id="${farm.farmCode}" th:data-email="${farm.email}" th:data-description="${farm.description}"
+                        th:data-address="${farm.address}" th:data-license="${farm.license}" th:data-money="${farm.money}">
+                    Изменить
+                </button>
+                <button type="button" class="btn btn-danger btn-sm" onclick="deleteRow(this)" data-farm-id="${farm.farmCode}">Удалить</button>
             </td>
         </tr>
         </tbody>
     </table>
-
-    <div class="container my-2">
-        <h1>Employees List</h1>
-
-        <a th:href="@{/showNewEmployeeForm}" class="btn btn-primary btn-sm mb-3"> Add Employee </a>
-
-        <table border="1" class="table table-striped table-responsive-md">
-            <thead>
-            <tr>
-                <th>Employee First Name</th>
-                <th>Employee Last Name</th>
-                <th>Employee Email</th>
-                <th> Actions </th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="employee : ${listEmployees}">
-                <td th:text="${employee.firstName}"></td>
-                <td th:text="${employee.lastName}"></td>
-                <td th:text="${employee.email}"></td>
-                <td> <a th:href="@{/showFormForUpdate/{id}(id=${employee.id})}" class="btn btn-primary">Update</a>
-                    <a th:href="@{/deleteEmployee/{id}(id=${employee.id})}" class="btn btn-danger">Delete</a>
-                </td>
-            </tr>
-            </tbody>
-        </table>
-        <div th:if="${totalPages > 1}">
-            <div class="row col-sm-10">
-                <div class="col-sm-2">
-                    Total Rows: [[${totalItems}]]
-                </div>
-                <div class="col-sm-1">
-                    <span th:each="i: ${#numbers.sequence(1, totalPages)}">
-      <a th:if="${currentPage != i}" th:href="@{'/page/' + ${i}}">[[${i}]]</a>
-      <span th:unless="${currentPage != i}">[[${i}]]</span> &nbsp; &nbsp;
-                    </span>
-                </div>
-                <div class="col-sm-1">
-                    <a th:if="${currentPage < totalPages}" th:href="@{'/page/' + ${currentPage + 1}}">Next</a>
-                    <span th:unless="${currentPage < totalPages}">Next</span>
-                </div>
-
-                <div class="col-sm-1">
-                    <a th:if="${currentPage < totalPages}" th:href="@{'/page/' + ${totalPages}}">Last</a>
-                    <span th:unless="${currentPage < totalPages}">Last</span>
-                </div>
-            </div>
-        </div>
-    </div>
-
+</div>
     <!-- Модальное окно для редактирования -->
     <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -107,55 +63,84 @@
                 </div>
                 <div class="modal-body">
                     <!-- Форма для редактирования данных -->
-                    <form>
-                        <div class="mb-3">
-                            <label for="editFirstName" class="form-label">Имя</label>
-                            <input type="text" class="form-control" id="editFirstName">
-                        </div>
-                        <div class="mb-3">
-                            <label for="editLastName" class="form-label">Фамилия</label>
-                            <input type="text" class="form-control" id="editLastName">
-                        </div>
+                    <form id="editForm">
+                         <div class="mb-3">
+                             <label for="editFarmCode" class="form-label">Код фермы</label>
+                             <input type="text" class="form-control" id="editFarmCode" readonly>
+                         </div>
+                         <div class="mb-3">
+                             <label for="editEmail" class="form-label">Почта</label>
+                             <input type="text" class="form-control" id="editEmail">
+                         </div>
+                         <div class="mb-3">
+                             <label for="editDescription" class="form-label">Описание</label>
+                             <input type="text" class="form-control" id="editDescription">
+                         </div>
+                         <div class="mb-3">
+                             <label for="editAddress" class="form-label">Адрес</label>
+                             <input type="text" class="form-control" id="editAddress">
+                         </div>
+                         <div class="mb-3">
+                             <label for="editLicense" class="form-label">Лицензия</label>
+                             <input type="text" class="form-control" id="editLicense">
+                         </div>
+                         <div class="mb-3">
+                             <label for="editMoney" class="form-label">Деньги</label>
+                             <input type="text" class="form-control" id="editMoney">
+                         </div>
                         <button type="submit" class="btn btn-primary">Сохранить изменения</button>
                     </form>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
-<!-- Модальное окно для добавления -->
-<div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="addModalLabel">Добавить новые данные</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <!-- Форма для добавления новых данных -->
-                <form>
-                    <div class="mb-3">
-                        <label for="addFirstName" class="form-label">Имя</label>
-                        <input type="text" class="form-control" id="addFirstName">
-                    </div>
-                    <div class="mb-3">
-                        <label for="addLastName" class="form-label">Фамилия</label>
-                        <input type="text" class="form-control" id="addLastName">
-                    </div>
-                    <button type="submit" class="btn btn-success">Добавить</button>
-                </form>
+
+    <!-- Модальное окно для добавления -->
+    <div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addModalLabel">Добавить новую ферму</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Форма для добавления сущности Farm -->
+                    <form id="addForm">
+                        <div class="mb-3">
+                            <label for="addEmail" class="form-label">Почта</label>
+                            <input type="text" class="form-control" id="addEmail" name="email" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="addDescription" class="form-label">Описание</label>
+                            <input type="text" class="form-control" id="addDescription" name="description" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="addAddress" class="form-label">Адрес</label>
+                            <input type="text" class="form-control" id="addAddress" name="address" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="addLicense" class="form-label">Лицензия</label>
+                            <input type="text" class="form-control" id="addLicense" name="license" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="addMoney" class="form-label">Деньги</label>
+                            <input type="number" class="form-control" id="addMoney" name="money" required>
+                        </div>
+                        <!-- Добавьте другие поля по необходимости -->
+                        <button type="submit" class="btn btn-primary">Добавить</button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
-</div>
-</div>
 
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script src="/static/js/header.js"></script>
+<script src="/static/js/farms.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
         crossorigin="anonymous"></script>
-<script src="/static/js/main-page.js"></script>
 
 </body>
 </html>

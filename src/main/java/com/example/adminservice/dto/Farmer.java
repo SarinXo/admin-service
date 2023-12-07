@@ -21,7 +21,6 @@ import java.util.Objects;
 @Setter
 @ToString
 @AllArgsConstructor
-@NoArgsConstructor
 @RequiredArgsConstructor
 @Entity
 @Table(name = "farmers")
