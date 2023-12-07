@@ -9,6 +9,7 @@ import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
@@ -17,13 +18,14 @@ import org.hibernate.Hibernate;
 import java.util.Date;
 import java.util.Objects;
 
-@Entity
-@Table(name = "pigs")
-@AllArgsConstructor
 @Getter
 @Setter
 @ToString
 @RequiredArgsConstructor
+@NoArgsConstructor
+@AllArgsConstructor
+@Entity
+@Table(name = "pigs")
 public class Pig {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -50,3 +52,5 @@ public class Pig {
         return getClass().hashCode();
     }
 }
+
+
