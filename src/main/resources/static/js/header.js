@@ -17,17 +17,17 @@ document.getElementById('common-code-container').innerHTML
     '                            Таблицы в базе данных\n' +
     '                        </a>\n' +
     '                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">\n' +
-    '                            <li><a class="dropdown-item" href="http://localhost/admin/farms"             data-table-id="farms"             >Фермы</a></li>\n' +
-    '                            <li><a class="dropdown-item" href="http://localhost/admin/farmers"           data-table-id="farmers"           >Фермеры</a></li>\n' +
-    '                            <li><a class="dropdown-item" href="http://localhost/admin/fattening-days"    data-table-id="fattening_days"    >Откормочные дни</a></li>\n' +
-    '                            <li><a class="dropdown-item" href="http://localhost/admin/feedbacks"         data-table-id="feedbacks"         >Отзывы</a></li>\n' +
-    '                            <li><a class="dropdown-item" href="http://localhost/admin/deals"             data-table-id="deals"             >Сделки</a></li>\n' +
-    '                            <li><a class="dropdown-item" href="http://localhost/admin/items"             data-table-id="items"             >Предметы</a></li>\n' +
-    '                            <li><a class="dropdown-item" href="http://localhost/admin/pigs"              data-table-id="pigs"              >Свиньи</a></li>\n' +
-    '                            <li><a class="dropdown-item" href="http://localhost/admin/weight-statistics" data-table-id="weight_statistics" >Весовая статистика</a></li>\n' +
-    '                            <li><a class="dropdown-item" href="http://localhost/admin/sterns"            data-table-id="sterns"            >Зерно</a></li>\n' +
-    '                            <li><a class="dropdown-item" href="http://localhost/admin/orders"            data-table-id="orders"            >Заказы</a></li>\n' +
-    '                            <li><a class="dropdown-item" href="http://localhost/admin/users"             data-table-id="users"             >Пользователи</a></li>\n' +
+    '                            <li><a class="dropdown-item" href="http://localhost:8080/admin/farms"             data-table-id="farms"             >Фермы</a></li>\n' +
+    '                            <li><a class="dropdown-item" href="http://localhost:8080/admin/farmers"           data-table-id="farmers"           >Фермеры</a></li>\n' +
+    '                            <li><a class="dropdown-item" href="http://localhost:8080/admin/fattening-days"    data-table-id="fattening_days"    >Откормочные дни</a></li>\n' +
+    '                            <li><a class="dropdown-item" href="http://localhost:8080/admin/feedbacks"         data-table-id="feedbacks"         >Отзывы</a></li>\n' +
+    '                            <li><a class="dropdown-item" href="http://localhost:8080/admin/deals"             data-table-id="deals"             >Сделки</a></li>\n' +
+    '                            <li><a class="dropdown-item" href="http://localhost:8080/admin/items"             data-table-id="items"             >Предметы</a></li>\n' +
+    '                            <li><a class="dropdown-item" href="http://localhost:8080/admin/pigs"              data-table-id="pigs"              >Свиньи</a></li>\n' +
+    '                            <li><a class="dropdown-item" href="http://localhost:8080/admin/weight-statistics" data-table-id="weight_statistics" >Весовая статистика</a></li>\n' +
+    '                            <li><a class="dropdown-item" href="http://localhost:8080/admin/sterns"            data-table-id="sterns"            >Зерно</a></li>\n' +
+    '                            <li><a class="dropdown-item" href="http://localhost:8080/admin/orders"            data-table-id="orders"            >Заказы</a></li>\n' +
+    '                            <li><a class="dropdown-item" href="http://localhost:8080/admin/users"             data-table-id="users"             >Пользователи</a></li>\n' +
     '                        </ul>\n' +
     '                    </li>\n' +
     '                </ul>\n' +

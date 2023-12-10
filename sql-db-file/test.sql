@@ -6,7 +6,7 @@ SELECT * FROM app.fattening_days;
 
 SELECT * FROM app.farmers;
 
-SELECT * FROM app.feedbacks ;
+SELECT * FROM app.feedbacks;
 
 SELECT * FROM app.deals;
 

@@ -1,150 +1,114 @@
 
-//обновление данных
-document.querySelector('#editForm').addEventListener('submit', function (event) {
-    event.preventDefault();
 
-    // Получаем значения из формы
-    var farmCode = document.getElementById('editFarmCode').value;
-    var email = document.getElementById('editEmail').value;
-    var description = document.getElementById('editDescription').value;
-    var address = document.getElementById('editAddress').value;
-    var license = document.getElementById('editLicense').value;
-    var money = document.getElementById('editMoney').value;
-
-    if (parseFloat(money) <= 0.0) {
-        alert('Значение "Деньги" должно быть больше 0.0.');
-        return;
-    }
-    // Формируем объект данных для отправки на сервер
-    var data = {
-    farmCode: farmCode,
-    email: email,
-    description: description,
-    address: address,
-    license: license,
-    money: money
-    };
-
-    // Отправляем AJAX-запрос на сервер
-    fetch('/admin-rest/farms', {
-    method: 'PUT',
-    headers: {
-    'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(data)
-    })
-
-    .then(response => response.json())
-    .then(updatedFarm => {
-    // Находим соответствующую строку в таблице и обновляем значения
-    var row = document.querySelector('tr[data-farm-id="' + updatedFarm.farmCode + '"]');
-    row.querySelector('td:nth-child(2)').textContent = updatedFarm.email;
-    row.querySelector('td:nth-child(3)').textContent = updatedFarm.description;
-    row.querySelector('td:nth-child(4)').textContent = updatedFarm.address;
-    row.querySelector('td:nth-child(5)').textContent = updatedFarm.license;
-    row.querySelector('td:nth-child(6)').textContent = updatedFarm.money;
-
-    // Закрываем модальное окно
-    $('#editModal').modal('hide');
-    })
-    .catch(error => console.error('Error:', error));
-});
-
-// Добавляем обработчик для кнопки "Удалить"
-function deleteRow(button) {
-    var farmCode = button.getAttribute('data-farm-id');
-
-    // Отправляем запрос на сервер для удаления
-    fetch('/admin-rest/farms/' + farmCode, {
-        method: 'DELETE',
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Ошибка удаления фермы');
-            }
-            return response.json();
-        })
-        .then(() => {
-            // Удаляем строку из таблицы
-            var row = button.closest('tr');
-            row.parentNode.removeChild(row);
-        })
-        .catch(error => console.error('Error:', error));
+toastr.options = {
+    "closeButton": true,
+    "debug": false,
+    "newestOnTop": false,
+    "progressBar": true,
+    "positionClass": "toast-bottom-right",
+    "preventDuplicates": false,
+    "onclick": null,
+    "showDuration": "300",
+    "hideDuration": "1000",
+    "timeOut": "5000",
+    "extendedTimeOut": "1000",
+    "showEasing": "swing",
+    "hideEasing": "linear",
+    "showMethod": "fadeIn",
+    "hideMethod": "fadeOut"
 }
 
-// Добавление кортежа
-document.querySelector('#addForm').addEventListener('submit', function (event) {
-    event.preventDefault();
+function getFormData($form){
+    var unindexed_array = $form.serializeArray();
+    var indexed_array = {};
 
-    // Получаем значения из формы
-    var email = document.getElementById('addEmail').value;
-    var description = document.getElementById('addDescription').value;
-    var address = document.getElementById('addAddress').value;
-    var license = document.getElementById('addLicense').value;
-    var money = document.getElementById('addMoney').value;
+    $.map(unindexed_array, function(n, i){
+        indexed_array[n['name']] = n['value'];
+    });
 
-    // Формируем объект данных для отправки на сервер
-    var data = {
-        email: email,
-        description: description,
-        address: address,
-        license: license,
-        money: money
-    };
-
-    // Отправляем AJAX-запрос на сервер для создания новой фермы
-    fetch('/admin-rest/farms', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data)
-    })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Ошибка при создании фермы');
-            }
-            return response.json();
-        })
-        .then(newFarm => {
-            // Обновляем таблицу
-            updateTable(newFarm);
-
-            // Закрываем модальное окно
-            $('#addModal').modal('hide');
-        })
-        .catch(error => console.error('Error:', error));
-});
-
-// Функция для обновления таблицы после добавления фермы
-function updateTable(newFarm) {
-    // Находим таблицу в DOM
-    var table = document.querySelector('.table tbody');
-
-    // Создаем новую строку
-    var newRow = table.insertRow(table.rows.length);
-
-    // Добавляем ячейки для каждого столбца
-    var cell1 = newRow.insertCell(0);
-    var cell2 = newRow.insertCell(1);
-    var cell3 = newRow.insertCell(2);
-    var cell4 = newRow.insertCell(3);
-    var cell5 = newRow.insertCell(4);
-    var cell6 = newRow.insertCell(5);
-
-    // Устанавливаем значения в ячейки
-    cell1.textContent = newFarm.farmCode;
-    cell2.textContent = newFarm.email;
-    cell3.textContent = newFarm.description;
-    cell4.textContent = newFarm.address;
-    cell5.textContent = newFarm.license;
-    cell6.textContent = newFarm.money;
+    return indexed_array;
 }
 
 
+$(document).ready(function () {
+    $('#editForm').on('submit', function (e){
+        e.preventDefault();
+
+        var data = getFormData($(this));
+        $.ajax({
+            url: '/admin-rest/farms',
+            method: 'PUT',
+            contentType: "application/json",
+            data: JSON.stringify(data),
+            success: function (data){
+                var farmCode = data['farmCode'];
+
+                $(`td[data-idEmail='${farmCode}']`).text(data['email']);
+                $(`td[data-idDescription='${farmCode}']`).text(data['description']);
+                $(`td[data-idAddress='${farmCode}']`).text(data['address']);
+                $(`td[data-idLicense='${farmCode}']`).text(data['license']);
+                $(`td[data-idMoney='${farmCode}']`).text(data['money']);
+                $('#editModal').modal('hide');
+
+                toastr["success"]("Успешно обновлено")
+            }
+        });
+    });
+
+    $('#addForm').on('submit', function (e){
+        e.preventDefault();
+
+        var data = getFormData($(this));
+        $.ajax({
+            url: '/admin-rest/farms',
+            method: 'POST',
+            contentType: "application/json",
+            data: JSON.stringify(data),
+            success: function (data){
+                var farmCode = data['farmCode'];
+
+                var newRow = $('<tr>');
+                newRow.append($('<td>').attr('data-idFarmCode', farmCode).text(data['farmCode']));
+                newRow.append($('<td>').attr('data-idEmail', farmCode).text(data['email']));
+                newRow.append($('<td>').attr('data-idDescription', farmCode).text(data['description']));
+                newRow.append($('<td>').attr('data-idAddress', farmCode).text(data['address']));
+                newRow.append($('<td>').attr('data-idLicense', farmCode).text(data['license']));
+                newRow.append($('<td>').attr('data-idMoney', farmCode).text(data['money']));
+
+                var buttonCell = $('<td>');
+
+                var editButton = $('<button>').attr({
+                    'type': 'button',
+                    'class': 'btn btn-warning btn-sm',
+                    'data-bs-toggle': 'modal',
+                    'data-bs-target': '#editModal',
+                    'data-farm-id': farmCode,
+                    'data-email': data['email'],
+                    'data-description': data['description'],
+                    'data-address': data['address'],
+                    'data-license': data['license'],
+                    'data-money': data['money']
+                }).text('Изменить');
+
+                var deleteButton = $('<button>').attr({
+                    'type': 'button',
+                    'class': 'btn btn-danger btn-sm',
+                    'onclick': 'deleteRow(this)',
+                    'data-farm-id': farmCode
+                }).text('Удалить');
+
+                buttonCell.append(editButton, deleteButton);
+
+                newRow.append(buttonCell);
+
+                $('#farmTable').append(newRow);
+                toastr["success"]("Успешно добавлено")
+
+                $('#addModal').modal('hide');
+            }
+        });
+    });
+});
 //для дефолтных значений
 document.addEventListener('DOMContentLoaded', function () {
     var editButtons = document.querySelectorAll('.btn[data-bs-toggle="modal"]');
@@ -169,3 +133,39 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 });
+
+function deleteFarm(button) {
+    var farmCode = $(button).data('farm-id');
+    Swal.fire({
+        title: 'Вы уверены?',
+        text: `Вы уверены, что хотите удалить ферму с кодом ${farmCode}?`,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Да, удалить!',
+        cancelButtonText: 'Отмена'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            deleteFarmOnServer(farmCode);
+        }
+    });
+}
+
+// Пример AJAX-запроса для удаления на сервере
+function deleteFarmOnServer(farmCode) {
+    $.ajax({
+        type: 'DELETE',
+        url: '/admin-rest/farms/' + farmCode,
+        success: function () {
+            toastr.success('Ферма успешно удалена');
+            var element = document.getElementById('row'+farmCode);
+            element.remove();
+        },
+        error: function () {
+            toastr.error('Произошла ошибка при удалении фермы');
+        }
+    });
+}
+
+
