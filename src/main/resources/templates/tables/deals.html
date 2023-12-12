@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" xmlns:th="http://www.thymeleaf.org">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Фермы</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="/static/css/main-page.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+          crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.17/dist/sweetalert2.min.css">
+
+</head>
+
+<!--Общий заголовок-->
+<header>
+    <div id="common-code-container"></div>
+</header>
+
+<body>
+<div class="container mt-5 bg-light rounded">
+    <h2>Таблица сделки</h2>
+    <button type="button" class="btn btn-success mb-3" data-bs-toggle="modal" data-bs-target="#addModal">Добавить</button>
+    <table border="1" class="table table-striped table-responsive-md" id="dealTable">
+        <thead>
+        <tr>
+            <th scope="col">id</th>
+            <th scope="col">id Фермера</th>
+            <th scope="col">id Поставщика</th>
+            <th scope="col">Дата сделки</th>
+            <th scope="col">Сумма</th>
+            <th scope="col"></th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr th:each="deal : ${listDeals}"    th:id="'row'+${deal.id}">
+            <td th:text="${deal.id}"         th:data-id =          "${deal.id}"></td>
+            <td th:text="${deal.farmerId}"   th:data-farmerId =    "${deal.id}"></td>
+            <td th:text="${deal.supplierId}" th:data-supplier-Id = "${deal.id}"></td>
+            <td th:text="${deal.timeStamp}"  th:data-timeStamp =   "${deal.id}"></td>
+            <td th:text="${deal.cost}"       th:data-cost =        "${deal.id}"></td>
+            <td>
+                <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editModal"
+                        th:data-id=         "${deal.id}"
+                        th:data-farmerId=   "${deal.farmerId}"
+                        th:data-supplierId= "${deal.supplierId}"
+                        th:data-timeStamp=  "${deal.timeStamp}"
+                        th:data-cost=       "${deal.cost}">
+                    Изменить
+                </button>
+                <button type="button" class="btn btn-danger btn-sm" th:attr="data-id=${deal.id}" onclick="deleteDeal(this)">Удалить</button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<!-- Модальное окно для редактирования -->
+<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editModalLabel">Редактировать данные</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Форма для редактирования данных -->
+                <form id="editForm">
+                    <div class="mb-3">
+                        <label for="editId" class="form-label">id</label>
+                        <input type="text" class="form-control" id="editId" readonly name="id">
+                    </div>
+                    <div class="mb-3">
+                        <label for="editFarmerId" class="form-label">id Фермера</label>
+                        <input type="text" class="form-control" id="editFarmerId" name="farmerId">
+                    </div>
+                    <div class="mb-3">
+                        <label for="editSupplierId" class="form-label">id Поставщика</label>
+                        <input type="text" class="form-control" id="editSupplierId" name="supplierId">
+                    </div>
+                    <div class="mb-3">
+                        <label for="editTimeStamp" class="form-label">Дата сделки</label>
+                        <input type="date" class="form-control" id="editTimeStamp" name="timeStamp">
+                    </div>
+                    <div class="mb-3">
+                        <label for="editCost" class="form-label">Сумма</label>
+                        <input type="number" step="0.01" class="form-control" id="editCost" name="cost">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Сохранить изменения</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Модальное окно для добавления -->
+<div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addModalLabel">Добавить новую ферму</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Форма для добавления сущности -->
+                <form id="addForm">
+                    <div class="mb-3">
+                        <label for="addFarmerId" class="form-label">id Фермера</label>
+                        <input type="text" class="form-control" id="addFarmerId" name="farmerId">
+                    </div>
+                    <div class="mb-3">
+                        <label for="addSupplierId" class="form-label">id Поставщика</label>
+                        <input type="text" class="form-control" id="addSupplierId" name="supplierId">
+                    </div>
+                    <div class="mb-3">
+                        <label for="addTimeStamp" class="form-label">Дата сделки</label>
+                        <input type="date" class="form-control" id="addTimeStamp" name="timeStamp">
+                    </div>
+                    <div class="mb-3">
+                        <label for="addCost" class="form-label">Сумма</label>
+                        <input type="number" step="0.01" class="form-control" id="addCost" name="cost">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Добавить</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.17/dist/sweetalert2.all.min.js"></script>
+<script src="/js/deals.js"></script>
+<script src="/static/js/header.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
+
+</body>
+</html>

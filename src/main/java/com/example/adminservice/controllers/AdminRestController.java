@@ -1,6 +1,8 @@
 package com.example.adminservice.controllers;
 
+import com.example.adminservice.dto.Deal;
 import com.example.adminservice.dto.Farm;
+import com.example.adminservice.services.DealService;
 import com.example.adminservice.services.FarmService;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -16,24 +18,42 @@ import org.springframework.web.bind.annotation.RestController;
 public class AdminRestController {
 
     private final FarmService farmService;
+    private final DealService dealService;
 
-    public AdminRestController(FarmService farmService) {
+    public AdminRestController(FarmService farmService, DealService dealService) {
         this.farmService = farmService;
+        this.dealService = dealService;
     }
 
     @Transactional
     @DeleteMapping("/farms/{id}")
-    public void deleteById(@PathVariable Integer id){
+    public void deleteFarmById(@PathVariable Integer id){
         farmService.deleteByFarmerCode(id);
     }
 
     @PutMapping("/farms")
-    public Farm modify(@RequestBody Farm farm){
+    public Farm modifyFarm(@RequestBody Farm farm){
         return farmService.modify(farm);
     }
 
     @PostMapping("/farms")
-    public Farm save(@RequestBody Farm farm){
+    public Farm saveFarm(@RequestBody Farm farm){
         return farmService.save(farm);
+    }
+
+    @Transactional
+    @DeleteMapping("/deals/{id}")
+    public void deleteDealById(@PathVariable Integer id){
+        dealService.deleteById(id);
+    }
+
+    @PutMapping("/deals")
+    public Deal modifyDeal(@RequestBody Deal deal){
+        return dealService.modify(deal);
+    }
+
+    @PostMapping("/deals")
+    public Deal saveDeal(@RequestBody Deal deal){
+        return dealService.save(deal);
     }
 }

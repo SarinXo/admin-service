@@ -32,18 +32,17 @@ $(document).ready(function () {
 
         var data = getFormData($(this));
         $.ajax({
-            url: '/admin-rest/farms',
+            url: '/admin-rest/deals',
             method: 'PUT',
             contentType: "application/json",
             data: JSON.stringify(data),
             success: function (data){
-                var farmCode = data['farmCode'];
+                var dealId = data['id'];
 
-                $(`td[data-idEmail='${farmCode}']`).text(data['email']);
-                $(`td[data-idDescription='${farmCode}']`).text(data['description']);
-                $(`td[data-idAddress='${farmCode}']`).text(data['address']);
-                $(`td[data-idLicense='${farmCode}']`).text(data['license']);
-                $(`td[data-idMoney='${farmCode}']`).text(data['money']);
+                $(`td[data-farmer-id   = '${dealId}']`).text(data['farmerId']);
+                $(`td[data-supplier-id = '${dealId}']`).text(data['supplierId']);
+                $(`td[data-time-stamp  = '${dealId}']`).text(data['timeStamp']);
+                $(`td[data-cost        = '${dealId}']`).text(data['cost']);
                 $('#editModal').modal('hide');
 
                 toastr["success"]("Успешно обновлено")
@@ -56,20 +55,19 @@ $(document).ready(function () {
 
         var data = getFormData($(this));
         $.ajax({
-            url: '/admin-rest/farms',
+            url: '/admin-rest/deals',
             method: 'POST',
             contentType: "application/json",
             data: JSON.stringify(data),
             success: function (data){
-                var farmCode = data['farmCode'];
+                var dealId = data['id'];
 
-                var newRow = $('<tr>').attr('id', 'row'+farmCode);
-                newRow.append($('<td>').attr('data-idFarmCode', farmCode).text(data['farmCode']));
-                newRow.append($('<td>').attr('data-idEmail', farmCode).text(data['email']));
-                newRow.append($('<td>').attr('data-idDescription', farmCode).text(data['description']));
-                newRow.append($('<td>').attr('data-idAddress', farmCode).text(data['address']));
-                newRow.append($('<td>').attr('data-idLicense', farmCode).text(data['license']));
-                newRow.append($('<td>').attr('data-idMoney', farmCode).text(data['money']));
+                var newRow = $('<tr>').attr('id', 'row'+dealId);
+                newRow.append($('<td>').attr('data-id', dealId).text(data['id']));
+                newRow.append($('<td>').attr('data-farmerId', dealId).text(data['farmerId']));
+                newRow.append($('<td>').attr('data-supplierId', dealId).text(data['supplierId']));
+                newRow.append($('<td>').attr('data-timeStamp', dealId).text(data['timeStamp']));
+                newRow.append($('<td>').attr('data-cost', dealId).text(data['cost']));
 
                 var buttonCell = $('<td>');
 
@@ -78,26 +76,25 @@ $(document).ready(function () {
                     'class': 'btn btn-warning btn-sm',
                     'data-bs-toggle': 'modal',
                     'data-bs-target': '#editModal',
-                    'data-farm-id': farmCode,
-                    'data-email': data['email'],
-                    'data-description': data['description'],
-                    'data-address': data['address'],
-                    'data-license': data['license'],
-                    'data-money': data['money']
+                    'data-id': dealId,
+                    'data-farmerId': data['farmerId'],
+                    'data-supplierId': data['supplierId'],
+                    'data-timeStamp': data['timeStamp'],
+                    'data-cost': data['cost']
                 }).text('Изменить');
 
                 var deleteButton = $('<button>').attr({
                     'type': 'button',
                     'class': 'btn btn-danger btn-sm',
-                    'onclick': 'deleteFarm(this)',
-                    'data-farm-id': farmCode
+                    'onclick': 'deleteDeal(this)',
+                    'data-id': dealId
                 }).text('Удалить');
 
                 buttonCell.append(editButton, deleteButton);
 
                 newRow.append(buttonCell);
 
-                $('#farmTable').append(newRow);
+                $('#dealTable').append(newRow);
                 toastr["success"]("Успешно добавлено")
 
                 $('#addModal').modal('hide');
@@ -112,29 +109,27 @@ document.addEventListener('DOMContentLoaded', function () {
     editButtons.forEach(function (button) {
         button.addEventListener('click', function () {
             // Извлекаем значения из атрибутов data-* кнопки
-            var farmCode = button.getAttribute('data-farm-id');
-            var email = button.getAttribute('data-email');
-            var description = button.getAttribute('data-description');
-            var address = button.getAttribute('data-address');
-            var license = button.getAttribute('data-license');
-            var money = button.getAttribute('data-money');
+            var id          = button.getAttribute('data-id');
+            var farmerId    = button.getAttribute('data-farmerId');
+            var supplierId  = button.getAttribute('data-supplierId');
+            var timeStamp   = button.getAttribute('data-timeStamp');
+            var cost        = button.getAttribute('data-cost');
 
             // Устанавливаем значения в форме модального окна
-            document.getElementById('editFarmCode').value = farmCode;
-            document.getElementById('editEmail').value = email;
-            document.getElementById('editDescription').value = description;
-            document.getElementById('editAddress').value = address;
-            document.getElementById('editLicense').value = license;
-            document.getElementById('editMoney').value = money;
+            document.getElementById('editId').value = id;
+            document.getElementById('editFarmerId').value = farmerId;
+            document.getElementById('editSupplierId').value = supplierId;
+            document.getElementById('editTimeStamp').value = timeStamp;
+            document.getElementById('editCost').value = cost;
         });
     });
 });
 
-function deleteFarm(button) {
-    var farmCode = $(button).data('farm-id');
+function deleteDeal(button) {
+    var id = $(button).data('id');
     Swal.fire({
         title: 'Вы уверены?',
-        text: `Вы уверены, что хотите удалить ферму с кодом ${farmCode}?`,
+        text: `Вы уверены, что хотите удалить сделку с кодом ${id}?`,
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#bf30fc',
@@ -143,23 +138,23 @@ function deleteFarm(button) {
         cancelButtonText: 'Отмена'
     }).then((result) => {
         if (result.isConfirmed) {
-            deleteFarmOnServer(farmCode);
+            deleteFarmOnServer(id);
         }
     });
 }
 
 // удаление на сервере
-function deleteFarmOnServer(farmCode) {
+function deleteFarmOnServer(id) {
     $.ajax({
         type: 'DELETE',
-        url: '/admin-rest/farms/' + farmCode,
+        url: '/admin-rest/deals/' + id,
         success: function () {
-            toastr.success('Ферма успешно удалена');
-            var element = document.getElementById('row'+farmCode);
+            toastr.success('Сделка успешно удалена');
+            var element = document.getElementById('row'+id);
             element.remove();
         },
         error: function () {
-            toastr.error('Произошла ошибка при удалении фермы');
+            toastr.error('Произошла ошибка при удалении сделки');
         }
     });
 }

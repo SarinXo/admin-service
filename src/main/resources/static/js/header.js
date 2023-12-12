@@ -4,7 +4,7 @@ document.getElementById('common-code-container').innerHTML
     '            <!------------------------------>\n' +
     '            <!--Ссылка на главную страницу-->\n' +
     '            <!------------------------------>\n' +
-    '            <a class="navbar-brand" href="http://localhost/admin/homepage">\n' +
+    '            <a class="navbar-brand" href="http://localhost:8080/admin/homepage">\n' +
     '                <img src="/static/pictures/MRSU_dark_bg_en_full_colorful.png" alt="" width="30" height="24" class="d-inline-block align-text-top">\n' +
     '                Панель администратора\n' +
     '            </a>\n' +

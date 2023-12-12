@@ -14,6 +14,7 @@ import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.proxy.HibernateProxy;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.Objects;
 
@@ -35,7 +36,7 @@ public class Deal {
     private Integer supplierId;
 
     @Column(name = "time_stamp")
-    private Date timeStamp;
+    private LocalDate timeStamp;
 
     private Double cost;
 
