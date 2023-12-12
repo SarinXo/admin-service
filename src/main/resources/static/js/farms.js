@@ -67,7 +67,7 @@ $(document).ready(function () {
             success: function (data){
                 var farmCode = data['farmCode'];
 
-                var newRow = $('<tr>');
+                var newRow = $('<tr>').attr('id', 'row'+farmCode);
                 newRow.append($('<td>').attr('data-idFarmCode', farmCode).text(data['farmCode']));
                 newRow.append($('<td>').attr('data-idEmail', farmCode).text(data['email']));
                 newRow.append($('<td>').attr('data-idDescription', farmCode).text(data['description']));
@@ -93,7 +93,7 @@ $(document).ready(function () {
                 var deleteButton = $('<button>').attr({
                     'type': 'button',
                     'class': 'btn btn-danger btn-sm',
-                    'onclick': 'deleteRow(this)',
+                    'onclick': 'deleteFarm(this)',
                     'data-farm-id': farmCode
                 }).text('Удалить');
 
@@ -141,8 +141,8 @@ function deleteFarm(button) {
         text: `Вы уверены, что хотите удалить ферму с кодом ${farmCode}?`,
         icon: 'warning',
         showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
+        confirmButtonColor: '#bf30fc',
+        cancelButtonColor: '#c50404',
         confirmButtonText: 'Да, удалить!',
         cancelButtonText: 'Отмена'
     }).then((result) => {
@@ -152,7 +152,7 @@ function deleteFarm(button) {
     });
 }
 
-// Пример AJAX-запроса для удаления на сервере
+// удаление на сервере
 function deleteFarmOnServer(farmCode) {
     $.ajax({
         type: 'DELETE',
