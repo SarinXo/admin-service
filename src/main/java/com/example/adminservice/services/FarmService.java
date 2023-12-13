@@ -10,6 +10,5 @@ public interface FarmService {
     void deleteByFarmerCode(Integer code);
     Farm save(Farm farm);
     Farm modify(Farm farm);
-
     List<Farm> getFarmsBetweenId(Long startId, Long endId);
 }

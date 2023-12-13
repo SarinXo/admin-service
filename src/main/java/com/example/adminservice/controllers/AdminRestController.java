@@ -2,8 +2,10 @@ package com.example.adminservice.controllers;
 
 import com.example.adminservice.dto.Deal;
 import com.example.adminservice.dto.Farm;
+import com.example.adminservice.dto.Farmer;
 import com.example.adminservice.services.DealService;
 import com.example.adminservice.services.FarmService;
+import com.example.adminservice.services.FarmerService;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,10 +21,12 @@ public class AdminRestController {
 
     private final FarmService farmService;
     private final DealService dealService;
+    private final FarmerService farmerService;
 
-    public AdminRestController(FarmService farmService, DealService dealService) {
+    public AdminRestController(FarmService farmService, DealService dealService, FarmerService farmerService) {
         this.farmService = farmService;
         this.dealService = dealService;
+        this.farmerService = farmerService;
     }
 
     @Transactional
@@ -55,5 +59,21 @@ public class AdminRestController {
     @PostMapping("/deals")
     public Deal saveDeal(@RequestBody Deal deal){
         return dealService.save(deal);
+    }
+
+    @Transactional
+    @DeleteMapping("/farmers/{id}")
+    public void deleteFarmerById(@PathVariable Integer id){
+        farmerService.deleteById(id);
+    }
+
+    @PutMapping("/farmers")
+    public Farmer modifyFarmer(@RequestBody Farmer farmer){
+        return farmerService.modify(farmer);
+    }
+
+    @PostMapping("/farmers")
+    public Farmer saveFarmer(@RequestBody Farmer farmer){
+        return farmerService.save(farmer);
     }
 }
