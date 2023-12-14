@@ -8,13 +8,12 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.proxy.HibernateProxy;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.Objects;
 
 @Getter
@@ -33,7 +32,7 @@ public class Feedback {
     private Integer ownerId;
     private Integer rating;
     @Column(name = "time_stamp")
-    private Date timeStamp;
+    private LocalDate timeStamp;
     @Column(name = "farmer_id")
     private Integer farmerId;
 

@@ -4,10 +4,12 @@ import com.example.adminservice.dto.Deal;
 import com.example.adminservice.dto.Farm;
 import com.example.adminservice.dto.Farmer;
 import com.example.adminservice.dto.FatteningDay;
+import com.example.adminservice.dto.Feedback;
 import com.example.adminservice.services.DealService;
 import com.example.adminservice.services.FarmService;
 import com.example.adminservice.services.FarmerService;
 import com.example.adminservice.services.FatteningDayService;
+import com.example.adminservice.services.FeedbackService;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,12 +27,14 @@ public class AdminRestController {
     private final DealService dealService;
     private final FarmerService farmerService;
     private final FatteningDayService fatteningDayService;
+    private final FeedbackService feedbackService;
 
-    public AdminRestController(FarmService farmService, DealService dealService, FarmerService farmerService, FatteningDayService fatteningDayService) {
+    public AdminRestController(FarmService farmService, DealService dealService, FarmerService farmerService, FatteningDayService fatteningDayService, FeedbackService feedbackService) {
         this.farmService = farmService;
         this.dealService = dealService;
         this.farmerService = farmerService;
         this.fatteningDayService = fatteningDayService;
+        this.feedbackService = feedbackService;
     }
 
     @Transactional
@@ -93,7 +97,23 @@ public class AdminRestController {
     }
 
     @PostMapping("/fattening-days")
-    public FatteningDay saveFatteningDay(@RequestBody FatteningDay fatteningDay){
+    public FatteningDay saveFatteningDay(@RequestBody FatteningDay fatteningDay) {
         return fatteningDayService.save(fatteningDay);
+    }
+
+    @Transactional
+    @DeleteMapping("/feedbacks/{id}")
+    public void deleteFeedbackDayById(@PathVariable Integer id){
+        feedbackService.deleteById(id);
+    }
+
+    @PutMapping("/feedbacks")
+    public Feedback modifyFeedback(@RequestBody Feedback fatteningDay){
+        return feedbackService.modify(fatteningDay);
+    }
+
+    @PostMapping("/feedbacks")
+    public Feedback saveFeedback(@RequestBody Feedback feedback){
+        return feedbackService.save(feedback);
     }
 }
