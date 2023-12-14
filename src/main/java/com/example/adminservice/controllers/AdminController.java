@@ -5,11 +5,13 @@ import com.example.adminservice.dto.Farm;
 import com.example.adminservice.dto.Farmer;
 import com.example.adminservice.dto.FatteningDay;
 import com.example.adminservice.dto.Feedback;
+import com.example.adminservice.dto.Order;
 import com.example.adminservice.services.DealService;
 import com.example.adminservice.services.FarmService;
 import com.example.adminservice.services.FarmerService;
 import com.example.adminservice.services.FatteningDayService;
 import com.example.adminservice.services.FeedbackService;
+import com.example.adminservice.services.OrderService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,13 +28,15 @@ public class AdminController {
     private final FarmerService farmerService;
     private final FatteningDayService fatteningDayService;
     private final FeedbackService feedbackService;
+    private final OrderService orderService;
 
-    public AdminController(FarmService farmService, DealService dealService, FarmerService farmerService, FatteningDayService fatteningDayService, FeedbackService feedbackService) {
+    public AdminController(FarmService farmService, DealService dealService, FarmerService farmerService, FatteningDayService fatteningDayService, FeedbackService feedbackService, OrderService orderService) {
         this.farmService = farmService;
         this.dealService = dealService;
         this.farmerService = farmerService;
         this.fatteningDayService = fatteningDayService;
         this.feedbackService = feedbackService;
+        this.orderService = orderService;
     }
 
     @GetMapping("/homepage")
@@ -68,5 +72,12 @@ public class AdminController {
         List<Feedback> list = feedbackService.getFeedbacksBetweenId(0L, 100L);
         model.addAttribute("listFeedbacks", list);
         return "/tables/feedbacks";
+    }
+
+    @GetMapping("/orders")
+    public String getOrderPage(Model model){
+        List<Order> list = orderService.getOrdersBetweenId(0L, 100L);
+        model.addAttribute("listOrders", list);
+        return "/tables/orders";
     }
 }

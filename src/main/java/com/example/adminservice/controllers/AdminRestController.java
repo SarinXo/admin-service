@@ -5,11 +5,14 @@ import com.example.adminservice.dto.Farm;
 import com.example.adminservice.dto.Farmer;
 import com.example.adminservice.dto.FatteningDay;
 import com.example.adminservice.dto.Feedback;
+import com.example.adminservice.dto.Order;
+import com.example.adminservice.repository.OrderRepository;
 import com.example.adminservice.services.DealService;
 import com.example.adminservice.services.FarmService;
 import com.example.adminservice.services.FarmerService;
 import com.example.adminservice.services.FatteningDayService;
 import com.example.adminservice.services.FeedbackService;
+import com.example.adminservice.services.OrderService;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,13 +31,20 @@ public class AdminRestController {
     private final FarmerService farmerService;
     private final FatteningDayService fatteningDayService;
     private final FeedbackService feedbackService;
+    private final OrderService orderService;
 
-    public AdminRestController(FarmService farmService, DealService dealService, FarmerService farmerService, FatteningDayService fatteningDayService, FeedbackService feedbackService) {
+    public AdminRestController(FarmService farmService,
+                               DealService dealService,
+                               FarmerService farmerService,
+                               FatteningDayService fatteningDayService,
+                               FeedbackService feedbackService,
+                               OrderService orderService) {
         this.farmService = farmService;
         this.dealService = dealService;
         this.farmerService = farmerService;
         this.fatteningDayService = fatteningDayService;
         this.feedbackService = feedbackService;
+        this.orderService = orderService;
     }
 
     @Transactional
@@ -115,5 +125,21 @@ public class AdminRestController {
     @PostMapping("/feedbacks")
     public Feedback saveFeedback(@RequestBody Feedback feedback){
         return feedbackService.save(feedback);
+    }
+
+    @Transactional
+    @DeleteMapping("/orders/{id}")
+    public void deleteOrdersById(@PathVariable Integer id){
+        orderService.deleteById(id);
+    }
+
+    @PutMapping("/orders")
+    public Order modifyOrder(@RequestBody Order order){
+        return orderService.modify(order);
+    }
+
+    @PostMapping("/orders")
+    public Order saveOrder(@RequestBody Order order){
+        return orderService.save(order);
     }
 }
