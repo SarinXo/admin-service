@@ -3,9 +3,11 @@ package com.example.adminservice.controllers;
 import com.example.adminservice.dto.Deal;
 import com.example.adminservice.dto.Farm;
 import com.example.adminservice.dto.Farmer;
+import com.example.adminservice.dto.FatteningDay;
 import com.example.adminservice.services.DealService;
 import com.example.adminservice.services.FarmService;
 import com.example.adminservice.services.FarmerService;
+import com.example.adminservice.services.FatteningDayService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,13 +21,14 @@ public class AdminController {
 
     private final FarmService farmService;
     private final DealService dealService;
-
     private final FarmerService farmerService;
+    private final FatteningDayService fatteningDayService;
 
-    public AdminController(FarmService farmService, DealService dealService, FarmerService farmerService) {
+    public AdminController(FarmService farmService, DealService dealService, FarmerService farmerService, FatteningDayService fatteningDayService) {
         this.farmService = farmService;
         this.dealService = dealService;
         this.farmerService = farmerService;
+        this.fatteningDayService = fatteningDayService;
     }
 
     @GetMapping("/homepage")
@@ -49,5 +52,11 @@ public class AdminController {
         List<Farmer> farmers = farmerService.getFarmsBetweenId(0L, 100L);
         model.addAttribute("listFarmers", farmers);
         return "/tables/farmers";
+    }
+    @GetMapping("/fattening-days")
+    public String getFatteningDayPage(Model model){
+        List<FatteningDay> list = fatteningDayService.getFatteningDaysBetweenId(0L, 100L);
+        model.addAttribute("listFatteningDays", list);
+        return "/tables/fattening-days";
     }
 }

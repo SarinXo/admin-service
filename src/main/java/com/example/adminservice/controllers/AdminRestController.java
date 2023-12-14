@@ -3,9 +3,11 @@ package com.example.adminservice.controllers;
 import com.example.adminservice.dto.Deal;
 import com.example.adminservice.dto.Farm;
 import com.example.adminservice.dto.Farmer;
+import com.example.adminservice.dto.FatteningDay;
 import com.example.adminservice.services.DealService;
 import com.example.adminservice.services.FarmService;
 import com.example.adminservice.services.FarmerService;
+import com.example.adminservice.services.FatteningDayService;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,11 +24,13 @@ public class AdminRestController {
     private final FarmService farmService;
     private final DealService dealService;
     private final FarmerService farmerService;
+    private final FatteningDayService fatteningDayService;
 
-    public AdminRestController(FarmService farmService, DealService dealService, FarmerService farmerService) {
+    public AdminRestController(FarmService farmService, DealService dealService, FarmerService farmerService, FatteningDayService fatteningDayService) {
         this.farmService = farmService;
         this.dealService = dealService;
         this.farmerService = farmerService;
+        this.fatteningDayService = fatteningDayService;
     }
 
     @Transactional
@@ -75,5 +79,21 @@ public class AdminRestController {
     @PostMapping("/farmers")
     public Farmer saveFarmer(@RequestBody Farmer farmer){
         return farmerService.save(farmer);
+    }
+
+    @Transactional
+    @DeleteMapping("/fattening-days/{id}")
+    public void deleteFatteningDayById(@PathVariable Integer id){
+        fatteningDayService.deleteById(id);
+    }
+
+    @PutMapping("/fattening-days")
+    public FatteningDay modifyFatteningDay(@RequestBody FatteningDay fatteningDay){
+        return fatteningDayService.modify(fatteningDay);
+    }
+
+    @PostMapping("/fattening-days")
+    public FatteningDay saveFatteningDay(@RequestBody FatteningDay fatteningDay){
+        return fatteningDayService.save(fatteningDay);
     }
 }

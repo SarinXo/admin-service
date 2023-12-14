@@ -14,6 +14,7 @@ import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.proxy.HibernateProxy;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.Objects;
 
@@ -29,9 +30,9 @@ public class FatteningDay {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     @Column(name = "date_start")
-    private Date dateStart;
+    private LocalDate dateStart;
     @Column(name = "date_end")
-    private Date dateEnd;
+    private LocalDate dateEnd;
     @Column(name = "farm_code")
     private Integer farmCode;
 

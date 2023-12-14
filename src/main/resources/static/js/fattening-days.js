@@ -32,19 +32,16 @@ $(document).ready(function () {
 
         var data = getFormData($(this));
         $.ajax({
-            url: '/admin-rest/farmers',
+            url: '/admin-rest/fattening-days',
             method: 'PUT',
             contentType: "application/json",
             data: JSON.stringify(data),
             success: function (data){
-                var farmerId = data['id'];
+                var fatteningDayId = data['id'];
 
-                $(`td[data-name = '${farmerId}']`).text(data['name']);
-                $(`td[data-surname = '${farmerId}']`).text(data['surname']);
-                $(`td[data-patronymic = '${farmerId}']`).text(data['patronymic']);
-                $(`td[data-email  = '${farmerId}']`).text(data['email']);
-                $(`td[data-description = '${farmerId}']`).text(data['description']);
-                $(`td[data-farmId = '${farmerId}']`).text(data['farmId']);
+                $(`td[data-dateStart = '${fatteningDayId}']`).text(data['dateStart']);
+                $(`td[data-dateEnd =   '${fatteningDayId}']`).text(data['dateEnd']);
+                $(`td[data-farmCode  = '${fatteningDayId}']`).text(data['farmCode']);
                 $('#editModal').modal('hide');
 
                 toastr["success"]("Успешно обновлено")
@@ -57,21 +54,18 @@ $(document).ready(function () {
 
         var data = getFormData($(this));
         $.ajax({
-            url: '/admin-rest/farmers',
+            url: '/admin-rest/fattening-days',
             method: 'POST',
             contentType: "application/json",
             data: JSON.stringify(data),
             success: function (data){
-                var farmerId = data['id'];
+                var fatteningDayId = data['id'];
 
-                var newRow =  $('<tr>').attr('id',  'row'+farmerId);
-                newRow.append($('<td>').attr('data-id', farmerId).text(data['id']));
-                newRow.append($('<td>').attr('data-name', farmerId).text(data['name']));
-                newRow.append($('<td>').attr('data-surname', farmerId).text(data['surname']));
-                newRow.append($('<td>').attr('data-patronymic', farmerId).text(data['patronymic']));
-                newRow.append($('<td>').attr('data-email', farmerId).text(data['email']));
-                newRow.append($('<td>').attr('data-description', farmerId).text(data['description']));
-                newRow.append($('<td>').attr('data-farmId', farmerId).text(data['farmId']));
+                var newRow =  $('<tr>').attr('id',  'row'+fatteningDayId);
+                newRow.append($('<td>').attr('data-id', fatteningDayId).text(data['id']));
+                newRow.append($('<td>').attr('data-dateStart', fatteningDayId).text(data['dateStart']));
+                newRow.append($('<td>').attr('data-dateEnd', fatteningDayId).text(data['dateEnd']));
+                newRow.append($('<td>').attr('data-farmCode', fatteningDayId).text(data['farmCode']));
 
                 var buttonCell = $('<td>');
 
@@ -80,27 +74,24 @@ $(document).ready(function () {
                     'class': 'btn btn-warning btn-sm',
                     'data-bs-toggle': 'modal',
                     'data-bs-target': '#editModal',
-                    'data-id': farmerId,
-                    'data-name': data['name'],
-                    'data-surname': data['surname'],
-                    'data-patronymic': data['patronymic'],
-                    'data-email': data['email'],
-                    'data-description': data['description'],
-                    'data-farmId': data['farmId']
+                    'data-id': fatteningDayId,
+                    'data-dateStart': data['dateStart'],
+                    'data-dateEnd': data['dateEnd'],
+                    'data-farmCode': data['farmCode'],
                 }).text('Изменить');
 
                 var deleteButton = $('<button>').attr({
                     'type': 'button',
                     'class': 'btn btn-danger btn-sm',
-                    'onclick': 'deleteFarmer(this)',
-                    'data-id': farmerId
+                    'onclick': 'deleteFatteningDay(this)',
+                    'data-id': fatteningDayId
                 }).text('Удалить');
 
                 buttonCell.append(editButton, deleteButton);
 
                 newRow.append(buttonCell);
 
-                $('#farmersTable').append(newRow);
+                $('#fatteningDaysTable').append(newRow);
                 toastr["success"]("Успешно добавлено")
 
                 $('#addModal').modal('hide');
@@ -115,31 +106,25 @@ document.addEventListener('DOMContentLoaded', function () {
     editButtons.forEach(function (button) {
         button.addEventListener('click', function () {
             // Извлекаем значения из атрибутов data-* кнопки
-            var id            = button.getAttribute('data-id');
-            var name          = button.getAttribute('data-name');
-            var surname       = button.getAttribute('data-surname');
-            var patronymic    = button.getAttribute('data-patronymic');
-            var email         = button.getAttribute('data-email');
-            var description   = button.getAttribute('data-description');
-            var farmId        = button.getAttribute('data-farmId');
+            var id           = button.getAttribute('data-id');
+            var dateStart    = button.getAttribute('data-dateStart');
+            var dateEnd      = button.getAttribute('data-dateEnd');
+            var farmCode     = button.getAttribute('data-farmCode');
 
             // Устанавливаем значения в форме модального окна
             document.getElementById('editId').value = id;
-            document.getElementById('editName').value = name;
-            document.getElementById('editSurname').value = surname;
-            document.getElementById('editPatronymic').value = patronymic;
-            document.getElementById('editEmail').value = email;
-            document.getElementById('editDescription').value = description;
-            document.getElementById('editFarmId').value = farmId;
+            document.getElementById('editDateStart').value = dateStart;
+            document.getElementById('editDateEnd').value = dateEnd;
+            document.getElementById('editFarmCode').value = farmCode;
         });
     });
 });
 
-function deleteFarmer(button) {
+function deleteFatteningDay(button) {
     var id = $(button).data('id');
     Swal.fire({
         title: 'Вы уверены?',
-        text: `Вы уверены, что хотите удалить фермера с id ${id}?`,
+        text: `Вы уверены, что хотите удалить Откормочный день с id ${id}?`,
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#bf30fc',
@@ -148,23 +133,23 @@ function deleteFarmer(button) {
         cancelButtonText: 'Отмена'
     }).then((result) => {
         if (result.isConfirmed) {
-            deleteFarmerOnServer(id);
+            deleteFatteningDayOnServer(id);
         }
     });
 }
 
 // удаление на сервере
-function deleteFarmerOnServer(id) {
+function deleteFatteningDayOnServer(id) {
     $.ajax({
         type: 'DELETE',
-        url: '/admin-rest/farmers/' + id,
+        url: '/admin-rest/fattening-days/' + id,
         success: function () {
-            toastr.success('Фермер успешно удален');
+            toastr.success('Откормочный день успешно удален');
             var element = document.getElementById('row'+id);
             element.remove();
         },
         error: function () {
-            toastr.error('Произошла ошибка при удалении фермера');
+            toastr.error('Произошла ошибка при удалении Откормочного дня');
         }
     });
 }
