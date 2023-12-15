@@ -93,13 +93,13 @@ $(document).ready(function () {
     $('#ordersTable').on('click', '.btn[data-bs-toggle="modal"]', function () {
         // Извлекаем значения из атрибутов data-* кнопки
         var id = $(this).data('id');
-        var farmerId = $(this).data('farmerId');
+        var farmerId = $(this).data('farmer-id');
         var type = $(this).data('type');
         var cost = $(this).data('cost');
 
         // Устанавливаем значения в форме модального окна
         $('#editId').val(id);
-        $('#editFarmerId').val(farmer-id);
+        $('#editFarmerId').val(farmerId);
         $('#editType').val(type);
         $('#editCost').val(cost);
     });
