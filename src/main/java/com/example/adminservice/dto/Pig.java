@@ -14,7 +14,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.Hibernate;
+import org.springframework.cglib.core.Local;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.Objects;
 
@@ -33,10 +35,10 @@ public class Pig {
     private Integer farmerId;
     private String breed;
     @Column(name = "date_of_birthday")
-    private Date dateOfBirthday;
+    private LocalDate dateOfBirthday;
     private String gender;
     @Column(name = "death_date")
-    private Date deathDate;
+    private LocalDate deathDate;
 
     @Override
     public boolean equals(Object o) {

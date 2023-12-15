@@ -1,1 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" xmlns:th="http://www.thymeleaf.org">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Фермы</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="/static/css/main-page.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+          crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.17/dist/sweetalert2.min.css">
 
+</head>
+
+<!--Общий заголовок-->
+<header>
+    <div id="common-code-container"></div>
+</header>
+
+<body>
+<div class="container mt-5 bg-light rounded">
+    <h2>Таблица Свиньи</h2>
+    <button type="button" class="btn btn-success mb-3" data-bs-toggle="modal" data-bs-target="#addModal">Добавить</button>
+    <table border="1" class="table table-striped table-responsive-md" id="pigsTable">
+        <thead>
+        <tr>
+            <th scope="col">id</th>
+            <th scope="col">Владелец id</th>
+            <th scope="col">Порода</th>
+            <th scope="col">Временная метка</th>
+            <th scope="col">Пол</th>
+            <th scope="col">Дата смерти</th>
+            <th scope="col"></th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr th:each="pig : ${listPigs}"         th:id=                  "'row'+${pig.id}">
+            <td th:text="${pig.id}"             th:data-id =            "${pig.id}"></td>
+            <td th:text="${pig.farmerId}"       th:data-farmerId =      "${pig.id}"></td>
+            <td th:text="${pig.breed}"          th:data-breed =         "${pig.id}"></td>
+            <td th:text="${pig.dateOfBirthday}" th:data-dateOfBirthday ="${pig.id}"></td>
+            <td th:text="${pig.gender}"         th:data-gender=         "${pig.id}"></td>
+            <td th:text="${pig.deathDate}"      th:data-deathDate =     "${pig.id}"></td>
+            <td>
+                <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editModal"
+                        th:data-id =                "${pig.id}"             
+                        th:data-farmer-id =         "${pig.farmerId}"       
+                        th:data-breed =             "${pig.breed}"          
+                        th:data-date-of-birthday=   "${pig.dateOfBirthday}" 
+                        th:data-gender=             "${pig.gender}"         
+                        th:data-death-date =        "${pig.deathDate}">
+                    Изменить
+                </button>
+                <button type="button" class="btn btn-danger btn-sm delete-entity" th:attr="data-id=${pig.id}">Удалить</button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<!-- Модальное окно для редактирования -->
+<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editModalLabel">Редактировать данные</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Форма для редактирования данных -->
+                <form id="editForm">
+                    <div class="mb-3">
+                        <label for="editId" class="form-label">id</label>
+                        <input type="text" class="form-control" id="editId" readonly name="id">
+                    </div>
+                    <div class="mb-3">
+                        <label for="editFarmerId" class="form-label">Владелец</label>
+                        <input type="number" class="form-control" id="editFarmerId" name="farmerId">
+                    </div>
+                    <div class="mb-3">
+                        <label for="editBreed" class="form-label">Порода</label>
+                        <input type="text" class="form-control" id="editBreed" name="breed">
+                    </div>
+                    <div class="mb-3">
+                        <label for="editDateOfBirthday" class="form-label">Дата рождения</label>
+                        <input type="date" step="0.1" class="form-control" id="editDateOfBirthday" name="dateOfBirthday">
+                    </div>
+                    <div class="mb-3">
+                        <label for="editGender" class="form-label">Пол</label>
+                        <input type="text" class="form-control" id="editGender" name="gender">
+                    </div>
+                    <div class="mb-3">
+                        <label for="editDeathDate" class="form-label">Время смерти</label>
+                        <input type="date" class="form-control" id="editDeathDate" name="deathDate">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Сохранить изменения</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Модальное окно для добавления -->
+<div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addModalLabel">Добавить новую свинью</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Форма для добавления сущности -->
+                <form id="addForm">
+                    <div class="mb-3">
+                        <label for="addFarmerId" class="form-label">Владелец</label>
+                        <input type="number" class="form-control" id="addFarmerId" name="farmerId">
+                    </div>
+                    <div class="mb-3">
+                        <label for="addBreed" class="form-label">Порода</label>
+                        <input type="text" class="form-control" id="addBreed" name="breed">
+                    </div>
+                    <div class="mb-3">
+                        <label for="addDateOfBirthday" class="form-label">Дата рождения</label>
+                        <input type="date" step="0.1" class="form-control" id="addDateOfBirthday" name="dateOfBirthday">
+                    </div>
+                    <div class="mb-3">
+                        <label for="addGender" class="form-label">Пол</label>
+                        <input type="text" class="form-control" id="addGender" name="gender">
+                    </div>
+                    <div class="mb-3">
+                        <label for="addDeathDate" class="form-label">Время смерти</label>
+                        <input type="date" class="form-control" id="addDeathDate" name="deathDate">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Добавить</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.17/dist/sweetalert2.all.min.js"></script>
+<script type="module" src="/js/pigs.js"></script>
+<script src="/static/js/header.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
+<script>
+    toastr.options = {
+        "closeButton": true,
+        "debug": false,
+        "newestOnTop": false,
+        "progressBar": true,
+        "positionClass": "toast-bottom-right",
+        "preventDuplicates": false,
+        "onclick": null,
+        "showDuration": "300",
+        "hideDuration": "1000",
+        "timeOut": "5000",
+        "extendedTimeOut": "1000",
+        "showEasing": "swing",
+        "hideEasing": "linear",
+        "showMethod": "fadeIn",
+        "hideMethod": "fadeOut"
+    }
+</script>
+</body>
+</html>

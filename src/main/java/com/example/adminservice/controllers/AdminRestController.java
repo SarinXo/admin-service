@@ -6,13 +6,14 @@ import com.example.adminservice.dto.Farmer;
 import com.example.adminservice.dto.FatteningDay;
 import com.example.adminservice.dto.Feedback;
 import com.example.adminservice.dto.Order;
-import com.example.adminservice.repository.OrderRepository;
+import com.example.adminservice.dto.Pig;
 import com.example.adminservice.services.DealService;
 import com.example.adminservice.services.FarmService;
 import com.example.adminservice.services.FarmerService;
 import com.example.adminservice.services.FatteningDayService;
 import com.example.adminservice.services.FeedbackService;
 import com.example.adminservice.services.OrderService;
+import com.example.adminservice.services.PigService;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -33,18 +34,22 @@ public class AdminRestController {
     private final FeedbackService feedbackService;
     private final OrderService orderService;
 
+    private final PigService pigService;
+
     public AdminRestController(FarmService farmService,
                                DealService dealService,
                                FarmerService farmerService,
                                FatteningDayService fatteningDayService,
                                FeedbackService feedbackService,
-                               OrderService orderService) {
+                               OrderService orderService,
+                               PigService pigService) {
         this.farmService = farmService;
         this.dealService = dealService;
         this.farmerService = farmerService;
         this.fatteningDayService = fatteningDayService;
         this.feedbackService = feedbackService;
         this.orderService = orderService;
+        this.pigService = pigService;
     }
 
     @Transactional
@@ -141,5 +146,21 @@ public class AdminRestController {
     @PostMapping("/orders")
     public Order saveOrder(@RequestBody Order order){
         return orderService.save(order);
+    }
+
+    @Transactional
+    @DeleteMapping("/pigs/{id}")
+    public void deletePigsById(@PathVariable Integer id){
+        pigService.deleteById(id);
+    }
+
+    @PutMapping("/pigs")
+    public Pig modifyPig(@RequestBody Pig pig){
+        return pigService.modify(pig);
+    }
+
+    @PostMapping("/pigs")
+    public Pig savePig(@RequestBody Pig pig){
+        return pigService.save(pig);
     }
 }
