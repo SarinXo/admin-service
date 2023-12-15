@@ -44,10 +44,10 @@
             <td th:text="${order.cost}"       th:data-cost =    "${order.id}"></td>
             <td>
                 <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editModal"
-                        th:data-id =        "${order.id}"
-                        th:data-farmerId =  "${order.farmerId}"
-                        th:data-type =      "${order.type}"
-                        th:data-cost =      "${order.cost}">
+                        th:data-id =         "${order.id}"
+                        th:data-farmer-id =  "${order.farmerId}"
+                        th:data-type =       "${order.type}"
+                        th:data-cost =       "${order.cost}">
                     Изменить
                 </button>
                 <button type="button" class="btn btn-danger btn-sm delete-entity" th:attr="data-id=${order.id}">Удалить</button>

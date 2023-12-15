@@ -99,7 +99,7 @@ $(document).ready(function () {
 
         // Устанавливаем значения в форме модального окна
         $('#editId').val(id);
-        $('#editFarmerId').val(farmerId);
+        $('#editFarmerId').val(farmer-id);
         $('#editType').val(type);
         $('#editCost').val(cost);
     });
