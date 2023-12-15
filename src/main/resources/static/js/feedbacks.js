@@ -100,10 +100,10 @@ $(document).ready(function () {
         // Извлекаем значения из атрибутов data-* кнопки
         var id = $(this).data('id');
         var comment = $(this).data('comment');
-        var ownerId = $(this).data('ownerId');
+        var ownerId = $(this).data('owner-id');
         var rating = $(this).data('rating');
-        var timeStamp = $(this).data('timeStamp');
-        var farmerId = $(this).data('farmerId');
+        var timeStamp = $(this).data('time-stamp');
+        var farmerId = $(this).data('farmer-id');
 
         // Устанавливаем значения в форме модального окна
         $('#editId').val(id);

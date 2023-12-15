@@ -50,10 +50,10 @@
                 <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editModal"
                         th:data-id =        "${feedback.id}"
                         th:data-comment =   "${feedback.comment}"
-                        th:data-ownerId =   "${feedback.ownerId}"
+                        th:data-owner-id =   "${feedback.ownerId}"
                         th:data-rating =    "${feedback.rating}"
-                        th:data-timeStamp = "${feedback.timeStamp}"
-                        th:data-farmerId =  "${feedback.farmerId}"  >
+                        th:data-time-stamp = "${feedback.timeStamp}"
+                        th:data-farmer-id =  "${feedback.farmerId}"  >
                     Изменить
                 </button>
                 <button type="button" class="btn btn-danger btn-sm delete-entity" th:attr="data-id=${feedback.id}">Удалить</button>
