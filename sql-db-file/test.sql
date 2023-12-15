@@ -10,7 +10,7 @@ SELECT * FROM app.feedbacks;
 
 SELECT * FROM app.deals;
 
-SELECT * FROM app.items ;
+SELECT * FROM app.items;
 
 SELECT * FROM app.pigs;
 

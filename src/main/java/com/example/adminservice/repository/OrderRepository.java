@@ -1,11 +1,12 @@
 package com.example.adminservice.repository;
 
 import com.example.adminservice.dto.Feedback;
+import com.example.adminservice.dto.Order;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface FeedbackRepository extends JpaRepository<Feedback, Integer> {
+public interface OrderRepository extends JpaRepository<Order, Integer> {
     void deleteById(Integer id);
-    List<Feedback> findAllByIdBetween(Long startId, Long endId);
+    List<Order> findAllByIdBetween(Long startId, Long endId);
 }
