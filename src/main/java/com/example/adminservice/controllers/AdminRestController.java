@@ -7,6 +7,7 @@ import com.example.adminservice.dto.FatteningDay;
 import com.example.adminservice.dto.Feedback;
 import com.example.adminservice.dto.Order;
 import com.example.adminservice.dto.Pig;
+import com.example.adminservice.dto.Stern;
 import com.example.adminservice.services.DealService;
 import com.example.adminservice.services.FarmService;
 import com.example.adminservice.services.FarmerService;
@@ -14,6 +15,7 @@ import com.example.adminservice.services.FatteningDayService;
 import com.example.adminservice.services.FeedbackService;
 import com.example.adminservice.services.OrderService;
 import com.example.adminservice.services.PigService;
+import com.example.adminservice.services.SternService;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -33,8 +35,8 @@ public class AdminRestController {
     private final FatteningDayService fatteningDayService;
     private final FeedbackService feedbackService;
     private final OrderService orderService;
-
     private final PigService pigService;
+    private final SternService sternService;
 
     public AdminRestController(FarmService farmService,
                                DealService dealService,
@@ -42,7 +44,7 @@ public class AdminRestController {
                                FatteningDayService fatteningDayService,
                                FeedbackService feedbackService,
                                OrderService orderService,
-                               PigService pigService) {
+                               PigService pigService, SternService sternService) {
         this.farmService = farmService;
         this.dealService = dealService;
         this.farmerService = farmerService;
@@ -50,6 +52,7 @@ public class AdminRestController {
         this.feedbackService = feedbackService;
         this.orderService = orderService;
         this.pigService = pigService;
+        this.sternService = sternService;
     }
 
     @Transactional
@@ -134,7 +137,7 @@ public class AdminRestController {
 
     @Transactional
     @DeleteMapping("/orders/{id}")
-    public void deleteOrdersById(@PathVariable Integer id){
+    public void deleteOrderById(@PathVariable Integer id){
         orderService.deleteById(id);
     }
 
@@ -150,7 +153,7 @@ public class AdminRestController {
 
     @Transactional
     @DeleteMapping("/pigs/{id}")
-    public void deletePigsById(@PathVariable Integer id){
+    public void deletePigById(@PathVariable Integer id){
         pigService.deleteById(id);
     }
 
@@ -162,5 +165,21 @@ public class AdminRestController {
     @PostMapping("/pigs")
     public Pig savePig(@RequestBody Pig pig){
         return pigService.save(pig);
+    }
+
+    @Transactional
+    @DeleteMapping("/sterns/{id}")
+    public void deleteSternById(@PathVariable Integer id){
+        sternService.deleteById(id);
+    }
+
+    @PutMapping("/sterns")
+    public Stern modifyStern(@RequestBody Stern stern){
+        return sternService.modify(stern);
+    }
+
+    @PostMapping("/sterns")
+    public Stern saveStern(@RequestBody Stern stern){
+        return sternService.save(stern);
     }
 }

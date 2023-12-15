@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" xmlns:th="http://www.thymeleaf.org">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Фермы</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="/static/css/main-page.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+          crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.17/dist/sweetalert2.min.css">
+
+</head>
+
+<!--Общий заголовок-->
+<header>
+    <div id="common-code-container"></div>
+</header>
+
+<body>
+<div class="container mt-5 bg-light rounded">
+    <h2>Таблица Корм</h2>
+    <button type="button" class="btn btn-success mb-3" data-bs-toggle="modal" data-bs-target="#addModal">Добавить</button>
+    <table border="1" class="table table-striped table-responsive-md" id="sternsTable">
+        <thead>
+        <tr>
+            <th scope="col">id</th>
+            <th scope="col">Владелец id</th>
+            <th scope="col">Тип</th>
+            <th scope="col">Вес</th>
+            <th scope="col"></th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr th:each="stern : ${listSterns}"     th:id=            "'row'+${stern.id}">
+            <td th:text="${stern.id}"           th:data-id =            "${stern.id}"></td>
+            <td th:text="${stern.farmerId}"     th:data-farmerId =      "${stern.id}"></td>
+            <td th:text="${stern.type}"         th:data-type =          "${stern.id}"></td>
+            <td th:text="${stern.weight}"       th:data-weight =        "${stern.id}"></td>
+            <td>
+                <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editModal"
+                        th:data-id =       "${stern.id}"
+                        th:data-farmer-id ="${stern.farmerId}"
+                        th:data-type =     "${stern.type}"
+                        th:data-weight=    "${stern.weight}">
+                    Изменить
+                </button>
+                <button type="button" class="btn btn-danger btn-sm delete-entity" th:attr="data-id=${stern.id}">Удалить</button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<!-- Модальное окно для редактирования -->
+<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editModalLabel">Редактировать данные</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Форма для редактирования данных -->
+                <form id="editForm">
+                    <div class="mb-3">
+                        <label for="editId" class="form-label">id</label>
+                        <input type="text" class="form-control" id="editId" readonly name="id">
+                    </div>
+                    <div class="mb-3">
+                        <label for="editFarmerId" class="form-label">Владелец</label>
+                        <input type="number" class="form-control" id="editFarmerId" name="farmerId">
+                    </div>
+                    <div class="mb-3">
+                        <label for="editType" class="form-label">Тип</label>
+                        <input type="text" class="form-control" id="editType" name="type">
+                    </div>
+                    <div class="mb-3">
+                        <label for="editWeight" class="form-label">Вес</label>
+                        <input type="number" step="0.1" class="form-control" id="editWeight" name="weight">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Сохранить изменения</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Модальное окно для добавления -->
+<div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addModalLabel">Добавить новый вид</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Форма для добавления сущности -->
+                <form id="addForm">
+                    <div class="mb-3">
+                        <label for="addFarmerId" class="form-label">Владелец</label>
+                        <input type="number" class="form-control" id="addFarmerId" name="farmerId">
+                    </div>
+                    <div class="mb-3">
+                        <label for="addType" class="form-label">Тип</label>
+                        <input type="text" class="form-control" id="addType" name="type">
+                    </div>
+                    <div class="mb-3">
+                        <label for="addWeight" class="form-label">Вес</label>
+                        <input type="number" step="0.1" class="form-control" id="addWeight" name="weight">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Добавить</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.17/dist/sweetalert2.all.min.js"></script>
+<script type="module" src="/js/sterns.js"></script>
+<script src="/static/js/header.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
+<script>
+    toastr.options = {
+        "closeButton": true,
+        "debug": false,
+        "newestOnTop": false,
+        "progressBar": true,
+        "positionClass": "toast-bottom-right",
+        "preventDuplicates": false,
+        "onclick": null,
+        "showDuration": "300",
+        "hideDuration": "1000",
+        "timeOut": "5000",
+        "extendedTimeOut": "1000",
+        "showEasing": "swing",
+        "hideEasing": "linear",
+        "showMethod": "fadeIn",
+        "hideMethod": "fadeOut"
+    }
+</script>
+</body>
+</html>

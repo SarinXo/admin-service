@@ -7,6 +7,7 @@ import com.example.adminservice.dto.FatteningDay;
 import com.example.adminservice.dto.Feedback;
 import com.example.adminservice.dto.Order;
 import com.example.adminservice.dto.Pig;
+import com.example.adminservice.dto.Stern;
 import com.example.adminservice.services.DealService;
 import com.example.adminservice.services.FarmService;
 import com.example.adminservice.services.FarmerService;
@@ -14,6 +15,7 @@ import com.example.adminservice.services.FatteningDayService;
 import com.example.adminservice.services.FeedbackService;
 import com.example.adminservice.services.OrderService;
 import com.example.adminservice.services.PigService;
+import com.example.adminservice.services.SternService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,8 +34,9 @@ public class AdminController {
     private final FeedbackService feedbackService;
     private final OrderService orderService;
     private final PigService pigService;
+    private final SternService sternService;
 
-    public AdminController(FarmService farmService, DealService dealService, FarmerService farmerService, FatteningDayService fatteningDayService, FeedbackService feedbackService, OrderService orderService, PigService pigService) {
+    public AdminController(FarmService farmService, DealService dealService, FarmerService farmerService, FatteningDayService fatteningDayService, FeedbackService feedbackService, OrderService orderService, PigService pigService, SternService sternService) {
         this.farmService = farmService;
         this.dealService = dealService;
         this.farmerService = farmerService;
@@ -41,6 +44,7 @@ public class AdminController {
         this.feedbackService = feedbackService;
         this.orderService = orderService;
         this.pigService = pigService;
+        this.sternService = sternService;
     }
 
     @GetMapping("/homepage")
@@ -89,5 +93,11 @@ public class AdminController {
         List<Pig> list = pigService.getPigsBetweenId(0L, 100L);
         model.addAttribute("listPigs", list);
         return "/tables/pigs";
+    }
+    @GetMapping("/sterns")
+    public String getSternPage(Model model){
+        List<Stern> list = sternService.getSternsBetweenId(0L, 100L);
+        model.addAttribute("listSterns", list);
+        return "/tables/sterns";
     }
 }
