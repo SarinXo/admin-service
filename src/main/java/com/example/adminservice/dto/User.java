@@ -2,6 +2,8 @@ package com.example.adminservice.dto;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -33,6 +35,8 @@ public class User {
     private String password;
     @Column(name = "farmer_id")
     private Integer farmerId;
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
     @Override
     public final boolean equals(Object o) {

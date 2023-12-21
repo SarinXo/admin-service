@@ -22,9 +22,7 @@ document.getElementById('common-code-container').innerHTML
     '                            <li><a class="dropdown-item" href="http://localhost:8080/admin/fattening-days"    data-table-id="fattening_days"    >Откормочные дни</a></li>\n' +
     '                            <li><a class="dropdown-item" href="http://localhost:8080/admin/feedbacks"         data-table-id="feedbacks"         >Отзывы</a></li>\n' +
     '                            <li><a class="dropdown-item" href="http://localhost:8080/admin/deals"             data-table-id="deals"             >Сделки</a></li>\n' +
-    '                            <li><a class="dropdown-item" href="http://localhost:8080/admin/items"             data-table-id="items"             >Предметы</a></li>\n' +
     '                            <li><a class="dropdown-item" href="http://localhost:8080/admin/pigs"              data-table-id="pigs"              >Свиньи</a></li>\n' +
-    '                            <li><a class="dropdown-item" href="http://localhost:8080/admin/weight-statistics" data-table-id="weight_statistics" >Весовая статистика</a></li>\n' +
     '                            <li><a class="dropdown-item" href="http://localhost:8080/admin/sterns"            data-table-id="sterns"            >Зерно</a></li>\n' +
     '                            <li><a class="dropdown-item" href="http://localhost:8080/admin/orders"            data-table-id="orders"            >Заказы</a></li>\n' +
     '                            <li><a class="dropdown-item" href="http://localhost:8080/admin/users"             data-table-id="users"             >Пользователи</a></li>\n' +
