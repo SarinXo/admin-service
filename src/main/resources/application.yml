@@ -1,4 +1,6 @@
 spring:
+  application:
+    name: admin-service
   datasource:
     url: jdbc:postgresql://localhost:5444/app-db?currentSchema=app
     username: admin
@@ -10,6 +12,13 @@ spring:
   web:
     resources:
       static-locations: classpath:/static/
+
+eureka:
+  instance:
+    instance-id: ${spring.application.name}:${server.port}
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8888/eureka/
 
 server:
   port: 8080
