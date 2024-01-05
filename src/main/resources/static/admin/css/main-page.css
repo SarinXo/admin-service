@@ -1,6 +1,7 @@
 body {
     background-size: cover;
     background-repeat: no-repeat;
+    background-attachment: fixed; /* фиксирует картинку (прибыль)*/
     background-image: url('https://edokhellas.com/wp-content/uploads/2021/01/275-scaled.jpg');
     margin: 0;
     overflow-y: auto;

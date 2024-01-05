@@ -87,3 +87,11 @@ CREATE TABLE IF NOT EXISTS app.users (
     role        VARCHAR(20),
     farmer_id   INT REFERENCES app.farmers(id)
 );
+
+CREATE TABLE IF NOT EXISTS app.products (
+    id          SERIAL PRIMARY KEY,
+    type        INT,
+    product_id  INT,
+    cost        DECIMAL(10, 2),
+    farmer_id   INT REFERENCES app.farmers(id)
+);
