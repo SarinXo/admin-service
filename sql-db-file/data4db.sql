@@ -1,5 +1,5 @@
 INSERT INTO app.farms (email, description, address, license, money) VALUES
-    ('mylitlefarm@example.com', 'Наша ферма специализируется на свиньях раззной породы',    'Ул. Пушкина д. Колотушкина 1', '82DFO-JB3PZ-LE56ME', 71500.50),
+    ('mylitlefarm@example.com', 'Наша ферма специализируется на свиньях разной породы',    'Ул. Пушкина д. Колотушкина 1', '82DFO-JB3PZ-LE56ME', 71500.50),
     ('pigSurprise@example.com', 'Свиньи с сюрпризом! Заказывайте только у нас!',            'Ул. Попова д. 95 ',            'IKDZO-P9MLJ-CSNQ70', 82200.75),
     ('goodProject@example.com', 'Мы хорошие, мы очень хорошие, мы такие хорошие ...',       'Ул. Горбунова д. 28',          '8UDFO-JB3PZ-LMP6ME', 21800.20),
     ('PigGod@example.com',      'Только мы производим продукцию высшего сорта',             'Ул. Пенькова д. 71',           'OPDFO-JB3PZ-LE5LFO', 42500.30),
