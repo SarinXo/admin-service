@@ -88,10 +88,17 @@ CREATE TABLE IF NOT EXISTS app.users (
     farmer_id   INT REFERENCES app.farmers(id)
 );
 
-CREATE TABLE IF NOT EXISTS app.products (
-    id          SERIAL PRIMARY KEY,
-    type        INT,
-    product_id  INT,
-    cost        DECIMAL(10, 2),
-    farmer_id   INT REFERENCES app.farmers(id)
+CREATE TABLE IF NOT EXISTS app.pigs_to_sell (
+    id                  SERIAL PRIMARY KEY,
+    pig_id              INT REFERENCES app.pigs(id),
+    cost                DECIMAL(10, 2),
+    farmer_id           INT REFERENCES app.farmers(id)
+);
+
+CREATE TABLE IF NOT EXISTS app.stern_to_sell (
+    id                  SERIAL PRIMARY KEY,
+    stern_id            INT REFERENCES app.sterns(id),
+    weight              DECIMAL(10, 2),
+    cost_per_kilo       DECIMAL(10, 2),
+    farmer_id           INT REFERENCES app.farmers(id)
 );
